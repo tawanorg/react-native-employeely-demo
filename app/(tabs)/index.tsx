@@ -1,4 +1,4 @@
-import { Header } from '@design/components/Header';
+import { Header } from '@/libs/design/components';
 import { StyleSheet, View } from 'react-native';
 
 export default function HomeScreen() {

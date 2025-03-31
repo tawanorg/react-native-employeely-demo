@@ -1,5 +1,6 @@
-import { useDesign } from '@design/hooks/useDesign';
+
 import { Text, View } from 'react-native';
+import { useDesign } from '../../hooks/useDesign';
 
 interface Props {
   title: string;

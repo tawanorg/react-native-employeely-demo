@@ -3,11 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@app/*": [
+      "@/*": [
         "./*"
-      ],
-      "@design/*": [
-        "./libs/design/*"
       ]
     }
   },
