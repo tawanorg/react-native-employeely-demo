@@ -1,5 +1,6 @@
 import { QueryProvider } from '@/libs/client/query-provider';
 import { DesignProvider } from '@/libs/design/provider';
+import '@/libs/utils/check-env';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -34,11 +35,11 @@ export default function RootLayout() {
 
   return (
     <QueryProvider>
-    <DesignProvider>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
+      <DesignProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
         <StatusBar style="auto" />
       </DesignProvider>
     </QueryProvider>
