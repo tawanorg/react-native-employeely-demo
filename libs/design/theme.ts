@@ -49,7 +49,7 @@ export const basicTheme: DesignContextType = {
 const lightTheme: Theme = {
   dark: true,
   fonts: basicTheme.fonts,
-  colors: basicTheme.dark.colors,
+  colors: basicTheme.light.colors,
 };
 
 const darkTheme: Theme = {
