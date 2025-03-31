@@ -1,4 +1,3 @@
-// use tanstack query
 import axios from "axios";
 import { Employee } from "../../types";
 import { queryClient } from "../utils";
