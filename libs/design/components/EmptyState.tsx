@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import { useDesign } from "../../hooks/useDesign";
+import { useDesign } from "../hooks/useDesign";
 
 export function EmptyState() {
   const { fonts } = useDesign();
