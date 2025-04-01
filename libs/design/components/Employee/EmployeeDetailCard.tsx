@@ -1,10 +1,10 @@
 import { Avatar } from '@/libs/design/components/Avatar';
-import { getEmployeeType } from '@/libs/design/components/Employee/utils';
 import { useDesign } from '@/libs/design/hooks/useDesign';
 import { darken } from '@/libs/design/utils/colors';
 import { Employee } from '@/libs/types';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { getEmployeeType } from './utils';
 
 export default function EmployeeDetailCard({ employee }: { employee: Employee }) {
   const { fonts, colors } = useDesign();

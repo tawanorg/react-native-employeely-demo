@@ -1,6 +1,6 @@
 import { employeeApi } from '@/libs/client/api/employee';
 import { EmptyState, Header } from '@/libs/design/components';
-import { EmployeeCard } from '@/libs/design/components/EmployeeCard';
+import { EmployeeCard } from '@/libs/design/components/Employee/EmployeeCard';
 import { Employee } from '@/libs/types';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';

@@ -15,7 +15,7 @@ export const Avatar = ({ size: defaultSize, source, name }: Props) => {
   const { colors } = useDesign();
   const size = getSize(defaultSize);
   const [cachedSource, setCachedSource] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const cacheImageSource = async () => {
@@ -34,25 +34,27 @@ export const Avatar = ({ size: defaultSize, source, name }: Props) => {
           style={[styles.image, { borderColor: colors.border }]}
         />
       ) : (
-        <Image
-          source={{ uri: source }}
-          style={[styles.image, { borderColor: colors.border }]}
-          onLoad={() => setLoading(false)}
-          onError={() => setLoading(false)}
-        />
+        <>
+          <Image
+            source={{ uri: source }}
+            style={[styles.image, { borderColor: colors.border, opacity: loading ? 0 : 1 }]}
+            onLoad={() => setLoading(true)}
+            onError={() => setLoading(false)}
+          />
+          {!loading && (
+            <Avatar.Placeholder
+              size={defaultSize}
+              name={name}
+            />
+          )}
+        </>
       )
     }
-    {!cachedSource && loading && (
+    {loading && (
       <ActivityIndicator
         style={styles.loadingIndicator}
         size="small"
         color={colors.primary}
-      />
-    )}
-    {!cachedSource && !loading && (
-      <Avatar.Placeholder
-        size={defaultSize}
-        name={name}
       />
     )}
     </View>

@@ -1,9 +1,10 @@
-import { getEmployeeType } from "@/libs/design/components/Employee/utils";
+
 import { Employee } from "@/libs/types";
 import { StyleSheet, Text, View } from "react-native";
 import { useDesign } from "../../hooks/useDesign";
 import { Avatar } from "../Avatar";
 import { HapticTab } from "../ui/HapticTab";
+import { getEmployeeType } from "./utils";
 
 interface Props {
   employee: Employee;
