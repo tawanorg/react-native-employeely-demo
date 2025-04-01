@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import * as FileSystem from 'expo-file-system';
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
 import { useDesign } from "../hooks/useDesign";
 
@@ -13,29 +14,47 @@ interface Props {
 export const Avatar = ({ size: defaultSize, source, name }: Props) => {
   const { colors } = useDesign();
   const size = getSize(defaultSize);
+  const [cachedSource, setCachedSource] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const cacheImageSource = async () => {
+      const cachedPath = await cacheImage(source);
+      setCachedSource(cachedPath);
+    };
+
+    cacheImageSource();
+  }, [source]);
 
   return (
     <View style={[styles.container, { width: size, height: size }]}>
-      {source ? (
-        <>
-          {loading && (
-            <ActivityIndicator
-              style={styles.loadingIndicator}
-              size="small"
-              color={colors.primary}
-            />
-          )}
-          <Image
-            source={{ uri: source }}
-            style={[styles.image, { borderColor: colors.border }]}
-            onLoad={() => setLoading(false)}
-            onError={() => setLoading(false)}
-          />
-        </>
+      {cachedSource ? (
+        <Image
+          source={{ uri: cachedSource }}
+          style={[styles.image, { borderColor: colors.border }]}
+        />
       ) : (
-        <Avatar.Placeholder size={defaultSize} name={name} />
-      )}
+        <Image
+          source={{ uri: source }}
+          style={[styles.image, { borderColor: colors.border }]}
+          onLoad={() => setLoading(false)}
+          onError={() => setLoading(false)}
+        />
+      )
+    }
+    {!cachedSource && loading && (
+      <ActivityIndicator
+        style={styles.loadingIndicator}
+        size="small"
+        color={colors.primary}
+      />
+    )}
+    {!cachedSource && !loading && (
+      <Avatar.Placeholder
+        size={defaultSize}
+        name={name}
+      />
+    )}
     </View>
   );
 };
@@ -55,6 +74,31 @@ Avatar.Placeholder = ({ size: defaultSize, name }: AvatarPlaceholderProps) => {
     </View>
   );
 }
+
+
+const cacheImage = async (uri: string): Promise<string> => {
+  // replace any non-alphanumeric characters, and any spaces with a dash
+  const filePath = uri.replace(/[^a-zA-Z0-9]/g, '-').replace(/\s+/g, '-');
+  const fileName = uri.split('/').pop() || 'default.jpg';
+  const path = `${FileSystem.cacheDirectory}${filePath}.${fileName}`;
+
+  const fileInfo = await FileSystem.getInfoAsync(path);
+  if (fileInfo.exists) {
+    return path;
+  }
+
+  try {
+    const downloadResult = await FileSystem.downloadAsync(uri, path);
+    if (downloadResult.status === 200) {
+      return path;
+    } else {
+      throw new Error('Failed to download image');
+    }
+  } catch (error) {
+    console.error('Image caching error:', error);
+    return uri; // Fallback to original URI if caching fails
+  }
+};
 
 const getInitials = (name: string) => {
   return name.split(' ').map(n => n[0]).join('');
