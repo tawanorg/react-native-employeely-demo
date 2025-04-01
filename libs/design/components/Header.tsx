@@ -13,7 +13,7 @@ export const Header = ({ title, onBack }: Props) => {
   const { fonts, colors } = useDesign();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { borderColor: colors.border }]}>
       {onBack && (
         <HapticTab onPress={onBack}>
           <IconSymbol name="chevron.left" size={24} color={colors.text} />
