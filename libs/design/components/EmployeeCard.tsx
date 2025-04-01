@@ -3,7 +3,7 @@ import { getEmployeeType } from "@/libs/utils/employee";
 import { StyleSheet, Text, View } from "react-native";
 import { useDesign } from "../hooks/useDesign";
 import { Avatar } from "./Avatar";
-import { HapticTab } from "./HapticTab";
+import { HapticTab } from "./ui/HapticTab";
 
 interface Props {
   employee: Employee;

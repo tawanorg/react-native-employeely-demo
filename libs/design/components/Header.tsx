@@ -1,8 +1,8 @@
 
 import { StyleSheet, Text, View } from 'react-native';
 import { useDesign } from '../hooks/useDesign';
-import { HapticTab } from './HapticTab';
-import { IconSymbol } from './IconSymbol';
+import { HapticTab } from './ui/HapticTab';
+import { IconSymbol } from './ui/IconSymbol';
 
 interface Props {
   title: string;

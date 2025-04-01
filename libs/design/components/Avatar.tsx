@@ -1,5 +1,5 @@
-
-import { Image, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
 import { useDesign } from "../hooks/useDesign";
 
 type AvatarSize = 'small' | 'medium' | 'large';
@@ -13,14 +13,26 @@ interface Props {
 export const Avatar = ({ size: defaultSize, source, name }: Props) => {
   const { colors } = useDesign();
   const size = getSize(defaultSize);
+  const [loading, setLoading] = useState(true);
 
   return (
     <View style={[styles.container, { width: size, height: size }]}>
       {source ? (
-        <Image
-          source={{ uri: source }}
-          style={[styles.image, { borderColor: colors.border }]}
-        />
+        <>
+          {loading && (
+            <ActivityIndicator
+              style={styles.loadingIndicator}
+              size="small"
+              color={colors.primary}
+            />
+          )}
+          <Image
+            source={{ uri: source }}
+            style={[styles.image, { borderColor: colors.border }]}
+            onLoad={() => setLoading(false)}
+            onError={() => setLoading(false)}
+          />
+        </>
       ) : (
         <Avatar.Placeholder size={defaultSize} name={name} />
       )}
@@ -81,5 +93,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 100,
+  },
+  loadingIndicator: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -10 }, { translateY: -10 }], // Center the indicator
   },
 });

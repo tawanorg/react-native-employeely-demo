@@ -2,9 +2,9 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
 
-import { HapticTab } from '@/libs/design/components/HapticTab';
-import { IconSymbol } from '@/libs/design/components/IconSymbol';
-import TabBarBackground from '@/libs/design/components/TabBarBackground';
+import { HapticTab } from '@/libs/design/components/ui/HapticTab';
+import { IconSymbol } from '@/libs/design/components/ui/IconSymbol';
+import TabBarBackground from '@/libs/design/components/ui/TabBarBackground';
 import { useDesign } from '@/libs/design/hooks/useDesign';
 
 
