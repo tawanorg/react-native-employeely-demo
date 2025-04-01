@@ -15,12 +15,13 @@ export const Avatar = ({ size: defaultSize, source, name }: Props) => {
   const { colors } = useDesign();
   const size = getSize(defaultSize);
   const [cachedSource, setCachedSource] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(true);
+ 
   useEffect(() => {
     const cacheImageSource = async () => {
       const cachedPath = await cacheImage(source);
       setCachedSource(cachedPath);
+      setLoading(false);
     };
 
     cacheImageSource();
@@ -28,35 +29,26 @@ export const Avatar = ({ size: defaultSize, source, name }: Props) => {
 
   return (
     <View style={[styles.container, { width: size, height: size }]}>
-      {cachedSource ? (
-        <Image
-          source={{ uri: cachedSource }}
-          style={[styles.image, { borderColor: colors.border }]}
+      {loading ? (
+        <ActivityIndicator
+          style={styles.loadingIndicator}
+          size="small"
+          color={colors.primary}
         />
       ) : (
-        <>
-          <Image
-            source={{ uri: source }}
-            style={[styles.image, { borderColor: colors.border, opacity: loading ? 0 : 1 }]}
-            onLoad={() => setLoading(true)}
-            onError={() => setLoading(false)}
-          />
-          {!loading && (
-            <Avatar.Placeholder
-              size={defaultSize}
-              name={name}
-            />
-          )}
-        </>
-      )
-    }
-    {loading && (
-      <ActivityIndicator
-        style={styles.loadingIndicator}
-        size="small"
-        color={colors.primary}
-      />
-    )}
+        <Image
+          source={{ uri: cachedSource || source }}
+          style={[styles.image, { borderColor: colors.border }]}
+          onLoad={() => setLoading(false)}
+          onError={() => setLoading(false)}
+        />
+      )}
+      {!loading && !cachedSource && (
+        <Avatar.Placeholder
+          size={defaultSize}
+          name={name}
+        />
+      )}
     </View>
   );
 };
@@ -85,6 +77,7 @@ const cacheImage = async (uri: string): Promise<string> => {
   const path = `${FileSystem.cacheDirectory}${filePath}.${fileName}`;
 
   const fileInfo = await FileSystem.getInfoAsync(path);
+
   if (fileInfo.exists) {
     return path;
   }
