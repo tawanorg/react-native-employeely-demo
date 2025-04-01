@@ -1,4 +1,8 @@
-export type EmployeeType = 'FULL_TIME' | 'PART_TIME' | 'CONTRACTOR';
+export enum EmployeeType {
+    FULL_TIME = 'FULL_TIME',
+    PART_TIME = 'PART_TIME',
+    CONTRACTOR = 'CONTRACTOR',
+}
 
 export type Employee = {
     uuid: string,
